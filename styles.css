@@ -349,9 +349,9 @@ a { color: inherit; text-decoration: none; }
   background:
     radial-gradient(120% 90% at 50% 0%, rgba(184,147,95,.14), transparent 60%),
     var(--ink-2);
-  border: 1px solid var(--ink-3); display: grid; place-items: center; position: relative;
+  border: 1px solid var(--ink-3); display: flex; align-items: center; justify-content: center; position: relative;
 }
-.frame__media video, .frame__media img { width: 100%; height: 100%; object-fit: cover; }
+.frame__media video, .frame__media img { width: 100%; height: 100%; object-fit: contain; }
 .frame__ph { color: var(--text-lsoft); font-size: .72rem; letter-spacing: .28em; text-transform: uppercase; }
 
 /* Placa cinematográfica (placeholder elegante até entrar a foto/vídeo) */
