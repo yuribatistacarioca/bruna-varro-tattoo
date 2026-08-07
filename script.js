@@ -120,31 +120,6 @@
   onScrollUI();
 
   /* ============================================================
-     SHOWCASE — esteira automática contínua (PC e celular)
-     ============================================================ */
-  const showcase = document.getElementById("trabalhos");
-  const track = document.getElementById("showcaseTrack");
-  if (showcase && track && !reduced) {
-    // Duplica os frames uma vez para o loop ficar contínuo (sem "salto")
-    const originals = Array.from(track.children);
-    originals.forEach((node) => {
-      const clone = node.cloneNode(true);
-      clone.setAttribute("aria-hidden", "true");
-      const img = clone.querySelector("img");
-      if (img) img.removeAttribute("loading"); // clones podem carregar de imediato
-      track.appendChild(clone);
-    });
-    showcase.classList.add("is-marquee");
-    // Duração proporcional à largura, pra manter velocidade constante em qualquer tela
-    requestAnimationFrame(() => {
-      const halfWidth = track.scrollWidth / 2;
-      const pxPerSecond = 55;
-      track.style.setProperty("--marquee-duration", (halfWidth / pxPerSecond).toFixed(1) + "s");
-    });
-  }
-  // Movimento reduzido: sem animação, vira carrossel arrastável via CSS (overflow-x + scroll-snap)
-
-  /* ============================================================
      BOTÃO MAGNÉTICO (só desktop/pointer fino)
      ============================================================ */
   if (isDesktop && !reduced) {
