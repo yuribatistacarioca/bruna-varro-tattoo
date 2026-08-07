@@ -338,7 +338,11 @@ a { color: inherit; text-decoration: none; }
   width: max-content; will-change: transform;
   animation: showcaseMarquee var(--marquee-duration, 45s) linear infinite;
 }
-.showcase.is-marquee .showcase__track:hover { animation-play-state: paused; }
+/* Pausa ao passar o mouse — só em dispositivos com mouse de verdade.
+   Em celular/tablet o :hover gruda no toque e travaria a esteira pra sempre. */
+@media (hover: hover) and (pointer: fine) {
+  .showcase.is-marquee .showcase__track:hover { animation-play-state: paused; }
+}
 @keyframes showcaseMarquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
