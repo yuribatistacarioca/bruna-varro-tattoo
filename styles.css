@@ -346,6 +346,17 @@ a { color: inherit; text-decoration: none; }
   overflow: visible; scroll-snap-type: none; flex-wrap: nowrap;
   width: max-content;
   animation: showcaseMarquee var(--marquee-duration, 45s) linear infinite;
+  /* Impede que o toque/clique sobre as fotos vire "arrastar imagem" ou
+     seleção de texto nativa do navegador - isso brigava com a animação
+     contínua e fazia as fotos sumirem ao tocar. */
+  touch-action: pan-y;
+  -webkit-user-select: none; user-select: none;
+}
+.showcase.is-marquee .frame__media img,
+.showcase.is-marquee .frame__media video {
+  -webkit-user-drag: none; user-drag: none;
+  -webkit-touch-callout: none;
+  pointer-events: none;
 }
 /* Pausa ao passar o mouse — só em dispositivos com mouse de verdade.
    Em celular/tablet o :hover gruda no toque e travaria a esteira pra sempre. */
