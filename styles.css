@@ -344,7 +344,6 @@ a { color: inherit; text-decoration: none; }
   width: max-content; will-change: transform; touch-action: pan-y;
 }
 .showcase.is-horizontal .frame { flex: 0 0 80vw; }
-.showcase.is-horizontal .frame__media { max-height: 62vh; }
 .frame__media {
   aspect-ratio: 3/4; border-radius: var(--radius); overflow: hidden;
   background:
@@ -490,7 +489,8 @@ a { color: inherit; text-decoration: none; }
   .serv__grid { grid-template-columns: repeat(2, 1fr); }
   .depo__grid { grid-template-columns: repeat(2, 1fr); }
   .frame { flex-basis: 46%; }
-  .showcase.is-horizontal .frame { flex: 0 0 40vw; }
+  .showcase.is-horizontal .frame { flex: 0 0 auto; width: auto; }
+  .showcase.is-horizontal .frame__media { width: auto; height: clamp(340px, 56vh, 560px); }
 }
 
 @media (min-width: 900px) {
@@ -506,8 +506,9 @@ a { color: inherit; text-decoration: none; }
   .footer__grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; }
   .frame { flex-basis: 32%; }
 
-  /* Showcase: 1 foto grande e centralizada por vez, como no briefing original */
-  .showcase.is-horizontal .frame { flex: 0 0 34vw; }
+  /* Showcase: 1 foto grande e centralizada por vez, altura define o tamanho (evita letterbox invisível) */
+  .showcase.is-horizontal .frame { flex: 0 0 auto; width: auto; }
+  .showcase.is-horizontal .frame__media { width: auto; height: clamp(420px, 64vh, 680px); }
 }
 
 @media (min-width: 1200px) {
