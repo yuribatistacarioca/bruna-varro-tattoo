@@ -317,33 +317,33 @@ a { color: inherit; text-decoration: none; }
 .artista__cta { margin-top: .2rem; }
 
 /* ============================================================
-   SHOWCASE (PAN HORIZONTAL)
+   SHOWCASE (ESTEIRA AUTOMÁTICA CONTÍNUA)
    ============================================================ */
 .showcase { background: var(--ink); color: var(--text-light); padding-top: clamp(4rem,10vw,7rem); }
 .showcase__intro { margin-bottom: 2.4rem; }
-.showcase__cue { display: inline-flex; align-items: center; gap: .9rem; margin-top: 1.6rem; }
-.showcase__cue-text { font-size: .66rem; letter-spacing: .2em; text-transform: uppercase; color: var(--text-lsoft); }
-.showcase__progress { position: relative; width: 110px; height: 2px; background: rgba(184,147,95,.22); border-radius: 2px; overflow: hidden; }
-.showcase__progress-bar { position: absolute; inset: 0 auto 0 0; width: 0; background: linear-gradient(90deg, var(--gold-deep), var(--gold)); transition: width .1s linear; }
-.showcase__cue-arrow { color: var(--gold); display: inline-flex; animation: cueBounce 1.5s ease-in-out infinite; }
-@keyframes cueBounce { 0%, 100% { transform: translateY(-2px); } 50% { transform: translateY(3px); } }
 .showcase__viewport { overflow: hidden; }
 .showcase__track {
   display: flex; gap: 1rem; padding-inline: var(--pad);
-  /* mobile: carrossel arrastável (fallback) */
+  /* fallback (sem JS/animação): carrossel arrastável */
   overflow-x: auto; scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch; scrollbar-width: none;
 }
 .showcase__track::-webkit-scrollbar { display: none; }
 .frame { flex: 0 0 78%; scroll-snap-align: center; }
 
-/* Modo pan horizontal (ativado por JS) — vale em qualquer tela: PC e celular */
-.showcase.is-horizontal .showcase__viewport { overflow: hidden; }
-.showcase.is-horizontal .showcase__track {
+/* Modo esteira (ativado por JS) — frames duplicados, rolagem contínua e automática */
+.showcase.is-marquee .showcase__viewport { overflow: hidden; }
+.showcase.is-marquee .showcase__track {
   overflow: visible; scroll-snap-type: none; flex-wrap: nowrap;
-  width: max-content; will-change: transform; touch-action: pan-y;
+  width: max-content; will-change: transform;
+  animation: showcaseMarquee var(--marquee-duration, 45s) linear infinite;
 }
-.showcase.is-horizontal .frame { flex: 0 0 80vw; }
+.showcase.is-marquee .showcase__track:hover { animation-play-state: paused; }
+@keyframes showcaseMarquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.showcase.is-marquee .frame { flex: 0 0 80vw; }
 .frame__media {
   aspect-ratio: 3/4; border-radius: var(--radius); overflow: hidden;
   background:
@@ -489,8 +489,8 @@ a { color: inherit; text-decoration: none; }
   .serv__grid { grid-template-columns: repeat(2, 1fr); }
   .depo__grid { grid-template-columns: repeat(2, 1fr); }
   .frame { flex-basis: 46%; }
-  .showcase.is-horizontal .frame { flex: 0 0 auto; width: auto; }
-  .showcase.is-horizontal .frame__media { width: auto; height: clamp(340px, 56vh, 560px); }
+  .showcase.is-marquee .frame { flex: 0 0 auto; width: auto; }
+  .showcase.is-marquee .frame__media { width: auto; height: clamp(340px, 56vh, 560px); }
 }
 
 @media (min-width: 900px) {
@@ -507,8 +507,8 @@ a { color: inherit; text-decoration: none; }
   .frame { flex-basis: 32%; }
 
   /* Showcase: 1 foto grande e centralizada por vez, altura define o tamanho (evita letterbox invisível) */
-  .showcase.is-horizontal .frame { flex: 0 0 auto; width: auto; }
-  .showcase.is-horizontal .frame__media { width: auto; height: clamp(420px, 64vh, 680px); }
+  .showcase.is-marquee .frame { flex: 0 0 auto; width: auto; }
+  .showcase.is-marquee .frame__media { width: auto; height: clamp(420px, 64vh, 680px); }
 }
 
 @media (min-width: 1200px) {

@@ -120,35 +120,29 @@
   onScrollUI();
 
   /* ============================================================
-     SHOWCASE — PAN HORIZONTAL (desktop) / carrossel (mobile)
+     SHOWCASE — esteira automática contínua (PC e celular)
      ============================================================ */
   const showcase = document.getElementById("trabalhos");
   const track = document.getElementById("showcaseTrack");
-  if (showcase && track && hasGSAP && !reduced && typeof ScrollTrigger !== "undefined") {
-    // Pan horizontal (rola ↓ e desliza →) no PC E no celular
-    showcase.classList.add("is-horizontal");
-    const bar = document.getElementById("showcaseBar");
-    const arrow = document.getElementById("showcaseArrow");
-    const getScroll = () => Math.max(0, track.scrollWidth - window.innerWidth);
-    gsap.to(track, {
-      x: () => -getScroll(),
-      ease: "none",
-      scrollTrigger: {
-        trigger: showcase,
-        start: "top top",
-        end: () => "+=" + getScroll(),
-        scrub: 0.6,
-        pin: true,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        onUpdate: function (self) {
-          if (bar) bar.style.width = (self.progress * 100).toFixed(1) + "%";
-          if (arrow) arrow.style.opacity = (1 - self.progress).toFixed(2);
-        },
-      },
+  if (showcase && track && !reduced) {
+    // Duplica os frames uma vez para o loop ficar contínuo (sem "salto")
+    const originals = Array.from(track.children);
+    originals.forEach((node) => {
+      const clone = node.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      const img = clone.querySelector("img");
+      if (img) img.removeAttribute("loading"); // clones podem carregar de imediato
+      track.appendChild(clone);
+    });
+    showcase.classList.add("is-marquee");
+    // Duração proporcional à largura, pra manter velocidade constante em qualquer tela
+    requestAnimationFrame(() => {
+      const halfWidth = track.scrollWidth / 2;
+      const pxPerSecond = 55;
+      track.style.setProperty("--marquee-duration", (halfWidth / pxPerSecond).toFixed(1) + "s");
     });
   }
-  // Sem GSAP ou movimento reduzido: carrossel arrastável via CSS (overflow-x + scroll-snap)
+  // Movimento reduzido: sem animação, vira carrossel arrastável via CSS (overflow-x + scroll-snap)
 
   /* ============================================================
      BOTÃO MAGNÉTICO (só desktop/pointer fino)
